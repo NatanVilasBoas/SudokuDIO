@@ -68,7 +68,7 @@ public class Main {
         for (int i = 0; i < BOARD_LIMIT; i++) {
             fields.add(new ArrayList<>());
             for (int j = 0; j < BOARD_LIMIT; j++) {
-                String positionConfig = positions.get("%s, %s".formatted(i, j));
+                String positionConfig = positions.get("%s,%s".formatted(i, j));
                 int expected = Integer.parseInt(positionConfig.split(",")[0]);
                 boolean fixed = Boolean.parseBoolean(positionConfig.split(",")[1]);
                 Field currentField = new Field(expected, fixed);
@@ -78,6 +78,7 @@ public class Main {
 
         board = new Board(fields);
         System.out.println("O jogo começou");
+        showCurrentGame();
     }
 
     private static void insertNumber() {
@@ -145,11 +146,11 @@ public class Main {
             return;
         }
 
-        if(board.gameIsFinished()){
-            System.out.println("Parabésn você concluiu o jogo!");
+        if (board.gameIsFinished()) {
+            System.out.println("Parabéns você concluiu o jogo!");
             showCurrentGame();
             board = null;
-        } else if (board.hasErrors()){
+        } else if (board.hasErrors()) {
             System.out.println("Seu jogo possui erros, por favor, corrija-os.");
         } else {
             System.out.println("Seu jogo possui campos não preenchidos.");
@@ -164,13 +165,14 @@ public class Main {
 
         System.out.println("Tem certeza que deseja limpar o jogo? Você perderá todo seu progresso. Digite S/N");
         String confirm = scanner.next();
-        while (!confirm.equalsIgnoreCase("s") || !confirm.equalsIgnoreCase("n")) {
+        while (!confirm.equalsIgnoreCase("s") && !confirm.equalsIgnoreCase("n")) {
             System.out.println("Digite S ou N");
             confirm = scanner.next();
         }
 
-        if(confirm.equalsIgnoreCase("s")){
+        if (confirm.equalsIgnoreCase("s")) {
             board.reset();
+            showCurrentGame();
         }
     }
 
